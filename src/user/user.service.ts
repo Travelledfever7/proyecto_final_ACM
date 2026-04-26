@@ -16,12 +16,12 @@ export class UserService {
     if (await this.findOneByEmail(createUserDto.email)) {
       throw new Error('User with this email already exists');
     }
-    const user = this.userRepository.create({...createUserDto});
-    return this.userRepository.save(user);
+    const user = await this.userRepository.create({...createUserDto});
+    return await this.userRepository.save(user);
   }
 
   async findAll() {
-    return this.userRepository.find();
+    return await this.userRepository.find();
   }
 
   async findOneByEmail(email: string) {
@@ -77,7 +77,7 @@ export class UserService {
         throw new NotFoundException('User not found');
       }
 
-      return this.userRepository.save(userUpdated);
+      return await this.userRepository.save(userUpdated);
     } catch (error: any) {
       throw new Error(error);
     }

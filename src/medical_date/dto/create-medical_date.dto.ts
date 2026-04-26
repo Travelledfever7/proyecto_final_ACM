@@ -3,7 +3,7 @@ import { IsDateString, IsString } from "class-validator";
 export class CreateMedicalDateDto {
 
     @IsDateString()
-    date!: string;
+    fecha!: string;
     
     @IsString()
     motivo!: string;

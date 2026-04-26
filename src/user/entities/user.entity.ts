@@ -13,7 +13,7 @@ export class User {
     @Column({ name: 'nombre' })
     name!: string;
 
-    @Column({ name: 'email' })
+    @Column({ name: 'email' , unique: true })
     email!: string;
 
     @Column({ name: 'password' })
@@ -22,9 +22,9 @@ export class User {
     @Column({ name: 'role', type: "enum", enum: ['Veterinarian', 'Owner'] })
     role!: UserRole;
 
-    @OneToOne(() => Owner, (owner) => owner.user_id)
+    @OneToOne(() => Owner, (owner) => owner.user, { cascade: true })
     owner!: Owner;
 
-    @OneToOne(() => Vet, (vet) => vet.user)
+    @OneToOne(() => Vet, (vet) => vet.user, { cascade: true })
     vet!: Vet;
 }

@@ -19,8 +19,8 @@ export class PetService {
       throw new Error('Owner not found');
     }
 
-    const pet = this.petRepository.create({ ...createPetDto, owner });
-    return this.petRepository.save(pet);
+    const pet = await this.petRepository.create({ ...createPetDto, owner });
+    return await this.petRepository.save(pet);
 
   }
 
@@ -68,7 +68,7 @@ export class PetService {
       if (!petUpdated) {
         throw new NotFoundException('Pet not found');
       }
-      return this.petRepository.save(petUpdated);
+      return await this.petRepository.save(petUpdated);
     } catch (error: any) {
       throw new Error(error);
     }

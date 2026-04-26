@@ -7,7 +7,6 @@ import { Repository } from 'typeorm';
 import { UserService } from 'src/user/user.service';
 import { UserRole } from 'src/user/enums/user.enum';
 import { isUUID } from 'class-validator';
-import { NotFoundError } from 'rxjs';
 
 @Injectable()
 export class VetService {
@@ -26,8 +25,8 @@ export class VetService {
       throw new Error('This user is already a vet');
     }
 
-    const vet = this.vetRepository.create(createVetDto);
-    return this.vetRepository.save(vet);
+    const vet = await this.vetRepository.create(createVetDto);
+    return await this.vetRepository.save(vet);
   }
 
   async findAll() {
@@ -58,6 +57,10 @@ export class VetService {
         id,
         ...updateVetDto,
       });
+      if (!vetUpdated) {
+        throw new NotFoundException('Vet not found');
+      }
+      return await this.vetRepository.save(vetUpdated);
     }catch (error: any) {
       throw new Error(error);
     }
@@ -69,7 +72,8 @@ export class VetService {
     }
     try{
       const vet = await this.findOneById(id);
-      return this.vetRepository.remove(vet);
+      await this.vetRepository.remove(vet);
+      return { message: 'Vet removed successfully' }
     }catch (error: any) {
       throw new Error(error);
     }

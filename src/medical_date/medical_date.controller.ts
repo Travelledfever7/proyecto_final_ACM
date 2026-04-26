@@ -19,16 +19,26 @@ export class MedicalDateController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.medicalDateService.findOne(+id);
+    return this.medicalDateService.findOneById(id);
+  }
+
+  @Get(':id')
+  findOneByVet(@Param('id') id: string) {
+    return this.medicalDateService.findOneByVet(id);
+  }
+
+  @Get(':id')
+  findOneByPet(@Param('id') id: string){
+    return this.medicalDateService.findOneByPet(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateMedicalDateDto: UpdateMedicalDateDto) {
-    return this.medicalDateService.update(+id, updateMedicalDateDto);
+    return this.medicalDateService.update(id, updateMedicalDateDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.medicalDateService.remove(+id);
+    return this.medicalDateService.remove(id);
   }
 }

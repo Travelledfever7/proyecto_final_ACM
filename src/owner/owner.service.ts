@@ -6,7 +6,7 @@ import { Owner } from './entities/owner.entity';
 import { Repository } from 'typeorm';
 import { UserService } from 'src/user/user.service';
 import { UserRole } from 'src/user/enums/user.enum';
-import { isUUID } from 'class-validator/types/decorator/string/IsUUID';
+import { isUUID } from 'class-validator';
 
 @Injectable()
 export class OwnerService {
@@ -24,16 +24,16 @@ export class OwnerService {
       throw new Error('This user is already an owner');
     }
 
-    const owner = this.ownerRepository.create({
+    const owner = await this.ownerRepository.create({
       address: createOwnerDto.address,
-      user_id: createOwnerDto.user_id,
+      ...user
     });
-    return this.ownerRepository.save(owner);
+    return await this.ownerRepository.save(owner);
 
   }
 
   async findAll() {
-    return this.ownerRepository.find();
+    return await this.ownerRepository.find();
   }
 
   async findOneById(id: string) {
@@ -64,7 +64,7 @@ export class OwnerService {
       if (!ownerUpdated) {
         throw new NotFoundException('Owner not found');
       }
-      return this.ownerRepository.save(ownerUpdated);
+      return await this.ownerRepository.save(ownerUpdated);
     } catch (error: any) {
       throw new Error(error);
     }

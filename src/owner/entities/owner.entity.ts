@@ -14,7 +14,7 @@ export class Owner {
 
     @OneToOne(() => User, (user) => user.owner)
     @JoinColumn({ name: 'user_id' })
-    user_id!: string;
+    user!: User;
 
     @OneToMany(() => Pet, (pet) => pet.owner)
     pets!: Pet[];
